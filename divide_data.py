@@ -11,13 +11,14 @@ def train_valid_test_split(x_data, y_data, validation_size=0.1, test_size=0.1, s
     return x_train, x_valid, x_test, y_train, y_valid, y_test
 
 if __name__ == '__main__':
-    path = "weibo_senti_100k/"
-    pd_all = pd.read_csv(os.path.join(path, "weibo_senti_100k.csv"))
+    path = "finnews/"
+    filename = "news.csv"
+    pd_all = pd.read_csv(os.path.join(path, filename))
     pd_all = shuffle(pd_all)
-    x_data, y_data = pd_all.review, pd_all.label
+    x_data, y_data = pd_all.iloc[:,1], pd_all.iloc[:,0]
 
     x_train, x_valid, x_test, y_train, y_valid, y_test = \
-            train_valid_test_split(x_data, y_data, 0.1, 0.1)
+            train_valid_test_split(x_data, y_data, 0.05, 0)
 
     train = pd.DataFrame({'label':y_train, 'x_train': x_train})
     train.to_csv(path+"train.csv", index=False, sep='\t')

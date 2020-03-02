@@ -230,10 +230,13 @@ class WeiboProcessor(DataProcessor):
     examples = []
     for (i, line) in enumerate(lines):
       # All sets have a header
+      #print(i,line[0],line[1].encode('utf8'))
       if i == 0: continue
       guid = "%s-%s" % (set_type, i)
       text_a = tokenization.convert_to_unicode(line[1])
       label = tokenization.convert_to_unicode(line[0])
+      if set_type=='test':
+        label = tokenization.convert_to_unicode('0')
       examples.append(
           InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
     return examples
@@ -490,6 +493,7 @@ def convert_single_example(ex_index, example, label_list, max_seq_length,
   assert len(input_mask) == max_seq_length
   assert len(segment_ids) == max_seq_length
 
+  #print(type(example.label))
   label_id = label_map[example.label]
   if ex_index < 5:
     tf.logging.info("*** Example ***")
