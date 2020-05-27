@@ -19,7 +19,6 @@ from __future__ import division
 from __future__ import print_function
 
 import collections
-import csv
 import os
 import modeling
 import optimization
@@ -203,15 +202,15 @@ class DataProcessor(object):
 		"""Gets the list of labels for this data set."""
 		raise NotImplementedError()
 
-	@classmethod
-	def _read_tsv(cls, input_file, quotechar=None):
-		"""Reads a tab separated value file."""
-		with tf.gfile.Open(input_file, "r") as f:
-			reader = csv.reader(f, delimiter="\t", quotechar=quotechar)
-			lines = []
-			for line in reader:
-				lines.append(line)
-			return lines
+	# @classmethod
+	# def _read_tsv(cls, input_file, quotechar=None):
+	# 	"""Reads a tab separated value file."""
+	# 	with tf.gfile.Open(input_file, "r") as f:
+	# 		reader = csv.reader(f, delimiter="\t", quotechar=quotechar)
+	# 		lines = []
+	# 		for line in reader:
+	# 			lines.append(line)
+	# 		return lines
 
 
 class NewsProcessor(DataProcessor):
@@ -219,13 +218,15 @@ class NewsProcessor(DataProcessor):
 
 	def get_train_examples(self, data_dir):
 		"""See base class."""
-		return self._create_examples(
-			self._read_tsv(os.path.join(data_dir, "train.csv")), "train")
+		# return self._create_examples(
+		# 	self._read_tsv(os.path.join(data_dir, "train.csv")), "train")
+		return None
 
 	def get_dev_examples(self, data_dir):
 		"""See base class."""
-		return self._create_examples(
-			self._read_tsv(os.path.join(data_dir, "dev.csv")), "dev")
+		# return self._create_examples(
+		# 	self._read_tsv(os.path.join(data_dir, "dev.csv")), "dev")
+		return None
 
 	def get_test_examples(self, data_dir):
 		"""See base class."""
