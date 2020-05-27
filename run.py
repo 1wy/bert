@@ -884,24 +884,10 @@ def main(_):
 				print('finish processing %d' % cnt)
 			# predict_examples = processor.get_test_examples(FLAGS.data_dir)
 			predict_examples = None
-	# output_predict_file = os.path.join(FLAGS.output_dir, "test_results.tsv")
-	# with tf.gfile.GFile(output_predict_file, "w") as writer:
-	#   num_written_lines = 0
-	#   tf.logging.info("***** Predict results *****")
-	#   for (i, prediction) in enumerate(result):
-	#     probabilities = prediction["probabilities"]
-	#     if i >= num_actual_predict_examples:
-	#       break
-	#     output_line = "\t".join(
-	#       str(class_probability)
-	#       for class_probability in probabilities) + "\n"
-	#     writer.write(output_line)
-	#     num_written_lines += 1
-	# assert num_written_lines == num_actual_predict_examples
+
 
 
 if __name__ == "__main__":
-	flags.mark_flag_as_required("data_dir")
 	flags.mark_flag_as_required("task_name")
 	flags.mark_flag_as_required("vocab_file")
 	flags.mark_flag_as_required("bert_config_file")
