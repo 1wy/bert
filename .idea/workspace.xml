@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="893f7902-38e1-4586-a59c-2fe6ed6767a3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/nohup.out" beforeDir="false" afterPath="$PROJECT_DIR$/nohup.out" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nohup2.out" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/run.sh" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/run_classifier.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/run_news.sh" beforeDir="false" afterPath="$PROJECT_DIR$/run_news.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run_news2.sh" beforeDir="false" afterPath="$PROJECT_DIR$/run_news2.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/show_results.py" beforeDir="false" afterPath="$PROJECT_DIR$/show_results.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmp.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/run.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="233" column="60" selection-start-line="233" selection-start-column="60" selection-end-line="233" selection-end-column="60" />
+            <state relative-caret-position="499">
+              <caret line="885" column="35" selection-start-line="885" selection-start-column="35" selection-end-line="885" selection-end-column="35" />
               <folding>
                 <element signature="e#646#684#0" expanded="true" />
               </folding>
@@ -83,6 +76,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
@@ -111,12 +105,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1590567265083</updated>
-      <workItem from="1590567272613" duration="750000" />
+      <workItem from="1590567272613" duration="1593000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="750000" />
+    <option name="totallyTimeSpent" value="1593000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1920" height="1055" extended-state="6" />
@@ -151,8 +145,8 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/run.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="233" column="60" selection-start-line="233" selection-start-column="60" selection-end-line="233" selection-end-column="60" />
+        <state relative-caret-position="499">
+          <caret line="885" column="35" selection-start-line="885" selection-start-column="35" selection-end-line="885" selection-end-column="35" />
           <folding>
             <element signature="e#646#684#0" expanded="true" />
           </folding>

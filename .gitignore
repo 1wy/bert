@@ -1,10 +1,5 @@
 # Initially taken from Github's Python gitignore file
-finnews/
-finnews1001-1907/
-finnews0331/
-finnews1001-1907output/
-weibo_output/
-weibo_senti_100k/
+model/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

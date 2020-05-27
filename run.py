@@ -232,12 +232,13 @@ class NewsProcessor(DataProcessor):
 		# return self._create_examples(
 		#   self._read_tsv(os.path.join(data_dir, "test.csv")), "test")
 		engine = create_engine('mysql://wy:,.,.,l@10.24.224.249/webdata?charset=utf8')
-		data = pd.read_sql('select S_INFO_WINDCODE, TITLE, URL from EastMoney where (USEFUL=1) and (SCORE is NULL) limit %d' % 2048,engine)
+		# data = pd.read_sql('select S_INFO_WINDCODE, TITLE, URL from EastMoney where (USEFUL=1) and (SCORE is NULL) limit %d' % 2048,engine)
+		data = pd.read_sql('select S_INFO_WINDCODE, TITLE, URL from EastMoney where (USEFUL=1) limit %d' % 64,engine)
 		data['TITLE'] = [s.replace(code_name.loc[c].values[0],'').replace(c,'') for c,s in zip(data['S_INFO_WINDCODE'], data['TITLE'])]
 		if len(data)==0:
 			return None
 		self.data_URL = data['URL'].values
-		print(self.data_URL[0])
+		self.content = data['TITLE'].values
 		data = pd.DataFrame({'x_test': data['TITLE'].values})
 		data['label'] = '0'
 		engine.dispose()
@@ -265,14 +266,16 @@ class NewsProcessor(DataProcessor):
 
 	def insert_score(self, scores):
 		df_results = pd.DataFrame({'SCORE': scores, 'URL': self.data_URL})
-		conn = connect(host='10.24.224.249', port=3306, database='webdata', user='wy', password=',.,.,l',
-		               charset='utf8')
-		cur = conn.cursor()
-		for url, score in zip(self.data_URL, scores):
-			sql = "update EastMoney set SCORE=%f where URL=\'%s\'" % (score, url)
-			cur.execute(sql)
-		cur.close()
-		conn.close()
+		df = pd.DataFrame({'SCORE': scores, 'TITLE': self.content})
+		print(df)
+		# conn = connect(host='10.24.224.249', port=3306, database='webdata', user='wy', password=',.,.,l',
+		#                charset='utf8')
+		# cur = conn.cursor()
+		# for url, score in zip(self.data_URL, scores):
+		# 	sql = "update EastMoney set SCORE=%f where URL=\'%s\'" % (score, url)
+		# 	cur.execute(sql)
+		# cur.close()
+		# conn.close()
 
 
 def convert_single_example(ex_index, example, label_list, max_seq_length,
@@ -879,7 +882,8 @@ def main(_):
 			cnt += num_actual_predict_examples
 			if cnt % 100 == 0:
 				print('finish processing %d' % cnt)
-			predict_examples = processor.get_test_examples(FLAGS.data_dir)
+			# predict_examples = processor.get_test_examples(FLAGS.data_dir)
+			predict_examples = None
 	# output_predict_file = os.path.join(FLAGS.output_dir, "test_results.tsv")
 	# with tf.gfile.GFile(output_predict_file, "w") as writer:
 	#   num_written_lines = 0
