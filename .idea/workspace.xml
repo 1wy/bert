@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="893f7902-38e1-4586-a59c-2fe6ed6767a3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/run.py" beforeDir="false" afterPath="$PROJECT_DIR$/run.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run_news.sh" beforeDir="false" afterPath="$PROJECT_DIR$/run_news.sh" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/run.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="475">
-              <caret line="886" column="4" selection-start-line="886" selection-start-column="4" selection-end-line="886" selection-end-column="4" />
+            <state relative-caret-position="-57">
+              <caret line="134" selection-start-line="134" selection-end-line="134" />
               <folding>
                 <element signature="e#646#684#0" expanded="true" />
               </folding>
@@ -39,6 +38,8 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>data_dir</find>
+      <find>UpdateDB</find>
+      <find>connect</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -121,12 +122,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1590567265083</updated>
-      <workItem from="1590567272613" duration="2660000" />
+      <workItem from="1590567272613" duration="4116000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2660000" />
+    <option name="totallyTimeSpent" value="4116000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1920" height="1055" extended-state="6" />
@@ -171,8 +172,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/run.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="475">
-          <caret line="886" column="4" selection-start-line="886" selection-start-column="4" selection-end-line="886" selection-end-column="4" />
+        <state relative-caret-position="-57">
+          <caret line="134" selection-start-line="134" selection-end-line="134" />
           <folding>
             <element signature="e#646#684#0" expanded="true" />
           </folding>
