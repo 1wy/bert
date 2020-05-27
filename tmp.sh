@@ -1,9 +1,0 @@
-export BERT_BASE_DIR="chinese_L-12_H-768_A-12/"
-export WEIBO_DIR="weibo_senti_100k/"
-
-vocab_file=$BERT_BASE_DIR"vocab.txt"
-bert_config_file=$BERT_BASE_DIR"bert_config.json"
-init_checkpoint=$BERT_BASE_DIR"bert_model.ckpt"
-
-echo $bert_config_file
-python run_classifier.py --task_name=WeiBo --do_train=True --do_eval=True --data_dir=$WEIBO_DIR --vocab_file=$vocab_file --bert_config_file=$bert_config_file --init_checkpoint=$init_checkpoint --train_batch_size=32 --learning_rate=5e-5 --num_train_epochs=2.0 --max_seq_length=128 --output_dir=./weibo_output/

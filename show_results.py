@@ -1,7 +1,7 @@
 import pandas as pd
 
-dir_text = 'finnews/CloseRet_t-1_t+1/'
-dir_output = 'finnews/CloseRet_t-1_t+1/output/'
+dir_text = 'finnews0331/CloseRet_t-2_t+1/'
+dir_output = 'finnews0331/CloseRet_t-2_t+1/output1/'
 pred = pd.read_csv(dir_output+'test_results.tsv',header=None,sep='\t')
 text = pd.read_csv(dir_text+'test.csv',sep='\t',dtype={'label':str})
 date_code = pd.read_csv(dir_text+'test_date.csv',sep='\t')

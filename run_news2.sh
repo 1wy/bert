@@ -12,4 +12,4 @@ init_checkpoint=$BERT_BASE_DIR"bert_model.ckpt"
 #init_checkpoint=$BERT_BASE_DIR"model.ckpt-4871"
 output_dir=$DATA_DIR"output/"
 
-CUDA_VISIBLE_DEVICES=0 python -u run_classifier.py --task_name=Weibo --do_train=True --do_eval=False --do_predict=True --data_dir=$DATA_DIR --vocab_file=$vocab_file --bert_config_file=$bert_config_file --init_checkpoint=$init_checkpoint --train_batch_size=32 --learning_rate=5e-5 --num_train_epochs=2.0 --max_seq_length=128 --output_dir=$output_dir
+CUDA_VISIBLE_DEVICES=0 python -u run_classifier.py --task_name=Weibo --do_train=True --do_eval=False --do_predict=True --data_dir=$DATA_DIR --vocab_file=$vocab_file --bert_config_file=$bert_config_file --init_checkpoint=$init_checkpoint --train_batch_size=32 --learning_rate=5e-5 --num_train_epochs=10.0 --max_seq_length=128 --output_dir=$output_dir
