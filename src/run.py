@@ -83,7 +83,7 @@ flags.DEFINE_integer("train_batch_size", 32, "Total batch size for training.")
 
 flags.DEFINE_integer("eval_batch_size", 8, "Total batch size for eval.")
 
-flags.DEFINE_integer("predict_batch_size", 16, "Total batch size for predict.")
+flags.DEFINE_integer("predict_batch_size", 32, "Total batch size for predict.")
 
 flags.DEFINE_float("learning_rate", 5e-5, "The initial learning rate for Adam.")
 
@@ -232,18 +232,17 @@ class NewsProcessor(DataProcessor):
 		"""See base class."""
 		# return self._create_examples(
 		#   self._read_tsv(os.path.join(data_dir, "test.csv")), "test")
-		engine = create_engine('mysql://wy:,.,.,l@10.24.224.249/webdata?charset=utf8')
-		# data = pd.read_sql('select S_INFO_WINDCODE, TITLE, URL from EastMoney where (USEFUL=1) and (SCORE is NULL) limit %d' % 2048,engine)
-		data = pd.read_sql('select S_INFO_WINDCODE, TITLE, URL from EastMoney where (USEFUL=1) limit %d' % 64,engine)
-		data['TITLE'] = [s.replace(code_name.loc[c].values[0],'').replace(c,'') for c,s in zip(data['S_INFO_WINDCODE'], data['TITLE'])]
-		if len(data)==0:
-			return None
+		# engine = create_engine('mysql://wy:,.,.,l@10.24.224.249/webdata?charset=utf8')
+		# # data = pd.read_sql('select S_INFO_WINDCODE, TITLE, URL from EastMoney where (USEFUL=1) and (SCORE is NULL) limit %d' % 2048,engine)
+		# data = pd.read_sql('select S_INFO_WINDCODE, TITLE, URL from EastMoney where (USEFUL=1) limit %d' % 64,engine)
+		# data['TITLE'] = [s.replace(code_name.loc[c].values[0],'').replace(c,'') for c,s in zip(data['S_INFO_WINDCODE'], data['TITLE'])]
+		data = pd.read_csv('input.csv')
 		self.data_URL = data['URL'].values
 		self.content = data['TITLE'].values
 		data = pd.DataFrame({'x_test': data['TITLE'].values})
 		data['label'] = '0'
-		engine.dispose()
 		return self._create_examples([['label', 'x_test']] + data[['label', 'x_test']].values.tolist(), "test")
+
 
 	def get_labels(self):
 		"""See base class."""
@@ -265,10 +264,9 @@ class NewsProcessor(DataProcessor):
 				InputExample(guid=guid, text_a=text_a, text_b=None, label=label))
 		return examples
 
-	def insert_score(self, scores):
+	def save_results(self, scores):
 		df_results = pd.DataFrame({'SCORE': scores, 'URL': self.data_URL})
-		df = pd.DataFrame({'SCORE': scores, 'TITLE': self.content})
-		print(df)
+		df_results.to_csv('output.csv',index=False)
 		# conn = connect(host='10.24.224.249', port=3306, database='webdata', user='wy', password=',.,.,l',
 		#                charset='utf8')
 		# cur = conn.cursor()
@@ -844,47 +842,41 @@ def main(_):
 		eval_spec = tf.estimator.EvalSpec(input_fn=eval_input_fn, throttle_secs=0)
 		tf.estimator.train_and_evaluate(estimator, train_spec, eval_spec)
 
-	cnt = 0
-	if FLAGS.do_predict:
-		predict_examples = processor.get_test_examples(FLAGS.data_dir)
-		while (not predict_examples is None):
-			num_actual_predict_examples = len(predict_examples)
-			if FLAGS.use_tpu:
-				# TPU requires a fixed batch size for all batches, therefore the number
-				# of examples must be a multiple of the batch size, or else examples
-				# will get dropped. So we pad with fake examples which are ignored
-				# later on.
-				while len(predict_examples) % FLAGS.predict_batch_size != 0:
-					predict_examples.append(PaddingInputExample())
+	predict_examples = processor.get_test_examples(FLAGS.data_dir)
 
-			predict_file = os.path.join(FLAGS.output_dir, "predict.tf_record")
-			if os.path.exists(predict_file):
-				os.remove(predict_file)
-			file_based_convert_examples_to_features(predict_examples, label_list,
-			                                        FLAGS.max_seq_length, tokenizer,
-			                                        predict_file)
+	if FLAGS.do_predict and (not predict_examples is None):
+		num_actual_predict_examples = len(predict_examples)
+		if FLAGS.use_tpu:
+			# TPU requires a fixed batch size for all batches, therefore the number
+			# of examples must be a multiple of the batch size, or else examples
+			# will get dropped. So we pad with fake examples which are ignored
+			# later on.
+			while len(predict_examples) % FLAGS.predict_batch_size != 0:
+				predict_examples.append(PaddingInputExample())
 
-			tf.logging.info("***** Running prediction*****")
-			tf.logging.info("  Num examples = %d (%d actual, %d padding)",
-			                len(predict_examples), num_actual_predict_examples,
-			                len(predict_examples) - num_actual_predict_examples)
-			tf.logging.info("  Batch size = %d", FLAGS.predict_batch_size)
+		predict_file = os.path.join(FLAGS.output_dir, "predict.tf_record")
+		if os.path.exists(predict_file):
+			os.remove(predict_file)
+		file_based_convert_examples_to_features(predict_examples, label_list,
+		                                        FLAGS.max_seq_length, tokenizer,
+		                                        predict_file)
 
-			predict_drop_remainder = True if FLAGS.use_tpu else False
-			predict_input_fn = file_based_input_fn_builder(
-				input_file=predict_file,
-				seq_length=FLAGS.max_seq_length,
-				is_training=False,
-				drop_remainder=predict_drop_remainder)
+		tf.logging.info("***** Running prediction*****")
+		tf.logging.info("  Num examples = %d (%d actual, %d padding)",
+		                len(predict_examples), num_actual_predict_examples,
+		                len(predict_examples) - num_actual_predict_examples)
+		tf.logging.info("  Batch size = %d", FLAGS.predict_batch_size)
 
-			result = estimator.predict(input_fn=predict_input_fn)
-			scores = [res["probabilities"][1] for res in result][:num_actual_predict_examples]
-			processor.insert_score(scores)
-			cnt += num_actual_predict_examples
-			if cnt % 100 == 0:
-				print('finish processing %d' % cnt)
-			# predict_examples = processor.get_test_examples(FLAGS.data_dir)
-			predict_examples = None
+		predict_drop_remainder = True if FLAGS.use_tpu else False
+		predict_input_fn = file_based_input_fn_builder(
+			input_file=predict_file,
+			seq_length=FLAGS.max_seq_length,
+			is_training=False,
+			drop_remainder=predict_drop_remainder)
+
+		result = estimator.predict(input_fn=predict_input_fn)
+		scores = [res["probabilities"][1] for res in result][:num_actual_predict_examples]
+		processor.save_results(scores)
 
 
 
