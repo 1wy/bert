@@ -45,6 +45,7 @@ def run():
 
 		code_name = code_name.set_index('S_INFO_WINDCODE')
 		data['TITLE'] = [s.replace(code_name.loc[c].values[0], '').replace(c, '') for c, s in zip(data['S_INFO_WINDCODE'], data['TITLE'])]
+		data = data.drop(['S_INFO_WINDCODE','flag'], axis=1)
 		data.to_csv('input.csv')
 		os.system('aipaas airun "./run_cloud.sh" --gpu 1 -u wxw -p wy123456 -w ./ -o ../output')
 		insert_score()

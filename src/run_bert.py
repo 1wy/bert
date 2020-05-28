@@ -232,7 +232,7 @@ class NewsProcessor(DataProcessor):
 		# data = pd.read_sql('select S_INFO_WINDCODE, TITLE, URL from EastMoney where (USEFUL=1) limit %d' % 64,engine)
 		# data['TITLE'] = [s.replace(code_name.loc[c].values[0],'').replace(c,'') for c,s in zip(data['S_INFO_WINDCODE'], data['TITLE'])]
 		data = pd.read_csv('input.csv')
-		self.data_URL = data['URL'].values
+		self.data_ID = data['ID'].values
 		self.content = data['TITLE'].values
 		data = pd.DataFrame({'x_test': data['TITLE'].values})
 		data['label'] = '0'
@@ -260,7 +260,7 @@ class NewsProcessor(DataProcessor):
 		return examples
 
 	def save_results(self, scores):
-		df_results = pd.DataFrame({'SCORE': scores, 'URL': self.data_URL})
+		df_results = pd.DataFrame({'SCORE': scores, 'ID': self.data_ID})
 		print(df_results)
 		df_results.to_csv('../output/output.csv',index=False)
 		# conn = connect(host='10.24.224.249', port=3306, database='webdata', user='wy', password=',.,.,l',
