@@ -11,7 +11,7 @@ def run():
 			return
 		conn = connect(host='10.24.224.249', port=3306, database='wind', user='wy', password=',.,.,l',charset='utf8')
 		cur = conn.cursor()
-		for ID in df_nouse['ID'].values:
+		for ID in df_nouse.index:
 			sql = "update FinancialNews set USEFUL=0 where ID=\'%s\'" % (ID)
 			cur.execute(sql)
 		cur.close()
