@@ -21,8 +21,8 @@ def run():
 		df = pd.read_csv('../output/output.csv')
 		conn = connect(host='10.24.224.249', port=3306, database='wind', user='wy', password=',.,.,l',charset='utf8')
 		cur = conn.cursor()
-		for url, score in zip(df['URL'], df['SCORE']):
-			sql = "update FinancialNews2 set SCORE=%f where URL=\'%s\'" % (score, url)
+		for ID, score in zip(df['ID'], df['SCORE']):
+			sql = "update FinancialNews2 set SCORE=%f where ID=\'%s\'" % (score, ID)
 			cur.execute(sql)
 		cur.close()
 		conn.close()
@@ -31,7 +31,7 @@ def run():
 		if os.path.exists('../output/output.csv'):
 			os.remove('../output/output.csv')
 
-	pull_size = 10240
+	pull_size = 1024
 	mysql_wind = create_engine('mysql://fineng:123456@10.24.224.249/wind?charset=utf8')
 	code_name = pd.read_sql('select S_INFO_WINDCODE, S_INFO_NAME from MyAShareDescription',mysql_wind)
 
@@ -47,7 +47,7 @@ def run():
 		data_nouse = data_copy[data_copy['flag']==0]
 		update_useful(data_nouse)
 		clean_output()
-		
+
 		code_name = code_name.set_index('S_INFO_WINDCODE')
 		data['TITLE'] = [s.replace(code_name.loc[c].values[0], '').replace(c, '') for c, s in zip(data['S_INFO_WINDCODE'], data['TITLE'])]
 		data = data.drop(['S_INFO_WINDCODE','flag'], axis=1)
