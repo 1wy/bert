@@ -5,7 +5,7 @@ output/
 __pycache__/
 *.py[cod]
 *$py.class
-
+*.csv
 *.out
 # C extensions
 *.so

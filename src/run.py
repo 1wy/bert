@@ -26,8 +26,6 @@ import tokenization
 import tensorflow as tf
 import pandas as pd
 import numpy as np
-from sqlalchemy import create_engine
-from pymysql import connect
 
 
 flags = tf.flags
@@ -129,9 +127,6 @@ tf.flags.DEFINE_string("master", None, "[Optional] TensorFlow master URL.")
 flags.DEFINE_integer(
 	"num_tpu_cores", 8,
 	"Only used if `use_tpu` is True. Total number of TPU cores to use.")
-
-mysql_conn = create_engine('mysql://fineng:123456@10.24.224.249/wind?charset=utf8')
-code_name = pd.read_sql('select S_INFO_WINDCODE, S_INFO_NAME from MyAShareDescription',mysql_conn).set_index('S_INFO_WINDCODE')
 
 class InputExample(object):
 	"""A single training/test example for simple sequence classification."""
@@ -266,6 +261,7 @@ class NewsProcessor(DataProcessor):
 
 	def save_results(self, scores):
 		df_results = pd.DataFrame({'SCORE': scores, 'URL': self.data_URL})
+		print(df_results)
 		df_results.to_csv('output.csv',index=False)
 		# conn = connect(host='10.24.224.249', port=3306, database='webdata', user='wy', password=',.,.,l',
 		#                charset='utf8')
