@@ -27,6 +27,10 @@ def run():
 		cur.close()
 		conn.close()
 
+	def clean_output():
+		if os.path.exists('../output/output.csv'):
+			os.remove('../output/output.csv')
+
 	pull_size = 10240
 	mysql_wind = create_engine('mysql://fineng:123456@10.24.224.249/wind?charset=utf8')
 	code_name = pd.read_sql('select S_INFO_WINDCODE, S_INFO_NAME from MyAShareDescription',mysql_wind)
@@ -42,7 +46,8 @@ def run():
 		data_copy.loc[data.index,'flag'] = 1
 		data_nouse = data_copy[data_copy['flag']==0]
 		update_useful(data_nouse)
-
+		clean_output()
+		
 		code_name = code_name.set_index('S_INFO_WINDCODE')
 		data['TITLE'] = [s.replace(code_name.loc[c].values[0], '').replace(c, '') for c, s in zip(data['S_INFO_WINDCODE'], data['TITLE'])]
 		data = data.drop(['S_INFO_WINDCODE','flag'], axis=1)
