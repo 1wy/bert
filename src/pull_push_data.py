@@ -29,7 +29,7 @@ def push_data():
 	# df_results = pd.DataFrame({'SCORE': scores, 'URL': self.data_URL})
 	# df = pd.DataFrame({'SCORE': scores, 'TITLE': self.content})
 	# print(df)
-	df = pd.read_csv('output.csv')
+	df = pd.read_csv('../output/output.csv')
 	conn = connect(host='10.24.224.249', port=3306, database='webdata', user='wy', password=',.,.,l',charset='utf8')
 	cur = conn.cursor()
 	for url, score in zip(df['URL'], df['SCORE']):

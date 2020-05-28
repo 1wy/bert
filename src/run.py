@@ -262,7 +262,7 @@ class NewsProcessor(DataProcessor):
 	def save_results(self, scores):
 		df_results = pd.DataFrame({'SCORE': scores, 'URL': self.data_URL})
 		print(df_results)
-		df_results.to_csv('output.csv',index=False)
+		df_results.to_csv('../output/output.csv',index=False)
 		# conn = connect(host='10.24.224.249', port=3306, database='webdata', user='wy', password=',.,.,l',
 		#                charset='utf8')
 		# cur = conn.cursor()
