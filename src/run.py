@@ -37,8 +37,8 @@ def run():
 	code_name['Code'] = code_name['S_INFO_WINDCODE']
 	code_name = code_name.set_index('Code')
 
-	# data = pd.read_sql('select S_INFO_WINDCODE, TITLE, URL from EastMoney where (USEFUL=1) and (SCORE is NULL) limit %d' % 2048,engine)
-	data = pd.read_sql('select ID, S_INFO_WINDCODE, TITLE from FinancialNews2 where (USEFUL=1) limit %d' % pull_size, mysql_wind)
+	data = pd.read_sql('select S_INFO_WINDCODE, TITLE, URL from EastMoney where (USEFUL=1) and (SCORE is NULL) limit %d' % pull_size,mysql_wind)
+	# data = pd.read_sql('select ID, S_INFO_WINDCODE, TITLE from FinancialNews2 where (USEFUL=1) limit %d' % pull_size, mysql_wind)
 	# os.system('aipaas login -u wxw -p wy123456')
 	cnt = 0
 	while len(data)>0:
@@ -55,7 +55,9 @@ def run():
 		data.to_csv('input.csv')
 		os.system('aipaas airun "./run_cloud.sh" --gpu 1 -u wxw -p wy123456 -w ./ -o ../output')
 		insert_score()
-		data = pd.read_sql('select ID, S_INFO_WINDCODE, TITLE from FinancialNews2 where (USEFUL=1) limit %d' % pull_size,mysql_wind)
+		# data = pd.read_sql('select ID, S_INFO_WINDCODE, TITLE from FinancialNews2 where (USEFUL=1) limit %d' % pull_size,mysql_wind)
+		data = pd.read_sql('select S_INFO_WINDCODE, TITLE, URL from EastMoney where (USEFUL=1) and (SCORE is NULL) limit %d' % pull_size,mysql_wind)
+
 		print('finishing new batch')
 
 if __name__ == '__main__':
