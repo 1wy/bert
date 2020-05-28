@@ -34,6 +34,8 @@ def run():
 	pull_size = 1024
 	mysql_wind = create_engine('mysql://fineng:123456@10.24.224.249/wind?charset=utf8')
 	code_name = pd.read_sql('select S_INFO_WINDCODE, S_INFO_NAME from MyAShareDescription',mysql_wind)
+	code_name['Code'] = code_name['S_INFO_WINDCODE']
+	code_name = code_name.set_index('Code')
 
 	# data = pd.read_sql('select S_INFO_WINDCODE, TITLE, URL from EastMoney where (USEFUL=1) and (SCORE is NULL) limit %d' % 2048,engine)
 	data = pd.read_sql('select ID, S_INFO_WINDCODE, TITLE from FinancialNews2 where (USEFUL=1) limit %d' % pull_size, mysql_wind)
@@ -48,7 +50,6 @@ def run():
 		update_useful(data_nouse)
 		clean_output()
 
-		code_name = code_name.set_index('S_INFO_WINDCODE')
 		data['TITLE'] = [s.replace(code_name.loc[c].values[0], '').replace(c, '') for c, s in zip(data['S_INFO_WINDCODE'], data['TITLE'])]
 		data = data.drop(['S_INFO_WINDCODE','flag'], axis=1)
 		data.to_csv('input.csv')
