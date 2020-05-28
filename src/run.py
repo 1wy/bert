@@ -12,7 +12,7 @@ def run():
 		conn = connect(host='10.24.224.249', port=3306, database='wind', user='wy', password=',.,.,l',charset='utf8')
 		cur = conn.cursor()
 		for ID in df_nouse.index:
-			sql = "update FinancialNews set USEFUL=0 where ID=\'%s\'" % (ID)
+			sql = "update FinancialNews2 set USEFUL=0 where ID=\'%s\'" % (ID)
 			cur.execute(sql)
 		cur.close()
 		conn.close()
@@ -43,6 +43,7 @@ def run():
 		data_nouse = data_copy[data_copy['flag']==0]
 		update_useful(data_nouse)
 
+		code_name = code_name.set_index('S_INFO_WINDCODE')
 		data['TITLE'] = [s.replace(code_name.loc[c].values[0], '').replace(c, '') for c, s in zip(data['S_INFO_WINDCODE'], data['TITLE'])]
 		data.to_csv('input.csv')
 		os.system('aipaas airun "./run_cloud.sh" --gpu 1 -u wxw -p wy123456 -w ./ -o ../output')
