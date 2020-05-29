@@ -30,6 +30,8 @@ def run():
 	def clean_output():
 		if os.path.exists('../output/output.csv'):
 			os.remove('../output/output.csv')
+		if os.path.exists('input.csv'):
+			os.remove('input.csv')
 
 	pull_size = 204800
 	mysql_wind = create_engine('mysql://fineng:123456@10.24.224.249/wind?charset=utf8')
