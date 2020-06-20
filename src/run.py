@@ -61,7 +61,7 @@ def run():
                 if os.path.exists('input.csv'):
                         os.remove('input.csv')
 
-        pull_size = 2048
+        pull_size = 204800
         mysql_wind = create_engine('mysql://fineng:123456@10.24.224.249/wind?charset=utf8')
         code_name = pd.read_sql('select S_INFO_WINDCODE, S_INFO_NAME from MyAShareDescription',mysql_wind)
         code_name['Code'] = code_name['S_INFO_WINDCODE']
@@ -89,7 +89,6 @@ def run():
                 insert_score()
                 data = pd.read_sql('select ID, S_INFO_WINDCODE, TITLE from FinancialNews where (USEFUL=1) and (SCORE is NULL) limit %d' % pull_size,mysql_wind)
 
-                data = []
                 print('finishing new batch')
 
 if __name__ == '__main__':
