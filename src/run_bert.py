@@ -215,13 +215,17 @@ class NewsProcessor(DataProcessor):
 		"""See base class."""
 		# return self._create_examples(
 		# 	self._read_tsv(os.path.join(data_dir, "train.csv")), "train")
-		return None
+		data = pd.read_csv('/home/wy/citics/eastMoney/output0331/shuffle/CloseRet_t-2_t+1/dev.csv',sep='\t')
+		data['label'] = data['label'].astype(str)
+		return self._create_examples([['label', 'x_train']] + data[['label', 'x_valid']].values.tolist(), "train")
 
 	def get_dev_examples(self, data_dir):
 		"""See base class."""
 		# return self._create_examples(
 		# 	self._read_tsv(os.path.join(data_dir, "dev.csv")), "dev")
-		return None
+		data = pd.read_csv('/home/wy/citics/eastMoney/output0331/shuffle/CloseRet_t-2_t+1/dev.csv', sep='\t')
+		data['label'] = data['label'].astype(str)
+		return self._create_examples([['label', 'x_train']] + data[['label', 'x_valid']].values.tolist(), "dev")
 
 	def get_test_examples(self, data_dir):
 		"""See base class."""
