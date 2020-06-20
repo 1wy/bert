@@ -84,15 +84,15 @@ def run():
 		data = data.drop(['S_INFO_WINDCODE','flag'], axis=1)
 		data[['TITLE']].to_csv('input.csv')
 		data[['DATE','TIME']].to_csv('../output/time.csv')
-		# os.system('aipaas airun "./run_cloud.sh" --gpu 1 -u wxw -p wy123456 -w ./ -o ../output')
+		os.system('aipaas airun "./run_cloud.sh" --gpu 1 -u wxw -p wy123456 -w ./ -o ../output')
 
-		output = deepcopy(data)
-		output['SCORE'] = 0.5
-		output[['SCORE']].to_csv('../output/output.csv')
+		#output = deepcopy(data)
+		#output['SCORE'] = 0.5
+		#output[['SCORE']].to_csv('../output/output.csv')
 
 		insert_score()
 		# data = pd.read_sql('select ID, S_INFO_WINDCODE, TITLE from FinancialNews where (USEFUL=1) limit %d' % pull_size,mysql_wind)
-		# data = pd.read_sql('select ID, S_INFO_WINDCODE, TITLE from FinancialNews where (USEFUL=1) and (SCORE is NULL) limit %d' % pull_size,mysql_wind)
+		data = pd.read_sql('select ID, S_INFO_WINDCODE, TITLE from FinancialNews where (USEFUL=1) and (SCORE is NULL) limit %d' % pull_size,mysql_wind)
 
 		print('finishing new batch')
 
