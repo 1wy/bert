@@ -79,15 +79,16 @@ def run():
                 data_nouse = data_copy[data_copy['flag']==0]
                 update_useful(data_nouse)
                 clean_output()
+                if len(data)>0:
 
-                data['TITLE'] = [s.replace(code_name.loc[c].values[0], '').replace(c, '') for c, s in zip(data['S_INFO_WINDCODE'], data['TITLE'])]
-                data = data.drop(['S_INFO_WINDCODE','flag'], axis=1)
-                data[['TITLE']].to_csv('input.csv')
-                data[['DATE','TIME']].to_csv('../output/time.csv')
-                os.system('aipaas airun "./run_cloud.sh" --gpu 1 -u wxw -p wy123456 -w ./ -o ../output')
+                    data['TITLE'] = [s.replace(code_name.loc[c].values[0], '').replace(c, '') for c, s in zip(data['S_INFO_WINDCODE'], data['TITLE'])]
+                    data = data.drop(['S_INFO_WINDCODE','flag'], axis=1)
+                    data[['TITLE']].to_csv('input.csv')
+                    data[['DATE','TIME']].to_csv('../output/time.csv')
+                    os.system('aipaas airun "./run_cloud.sh" --gpu 1 -u wxw -p wy123456 -w ./ -o ../output')
 
-                insert_score()
-                data = pd.read_sql('select ID, S_INFO_WINDCODE, TITLE from FinancialNews where (USEFUL=1) and (SCORE is NULL) limit %d' % pull_size,mysql_wind)
+                    insert_score()
+                data = pd.read_sql('select ID, DATE, TIME, S_INFO_WINDCODE, TITLE from FinancialNews where (USEFUL=1) and (SCORE is NULL) limit %d' % pull_size,mysql_wind)
 
                 print('finishing new batch')
 
