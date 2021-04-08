@@ -69,7 +69,7 @@ def run():
 
         data = pd.read_sql('select ID, DATE, TIME, S_INFO_WINDCODE, TITLE from FinancialNews where (USEFUL=1) and (SCORE is NULL) limit %d' % pull_size,mysql_wind)
         # data = pd.read_sql('select ID, S_INFO_WINDCODE, TITLE from FinancialNews where (USEFUL=1) limit %d' % pull_size, mysql_wind)
-        os.system('aipaas login -u wxw -p wy123456')
+        os.system('aipaas login -u wxw -p wy12345678')
         cnt = 0
         while len(data)>0:
                 data['flag'] = 0
@@ -85,7 +85,7 @@ def run():
                     data = data.drop(['S_INFO_WINDCODE','flag'], axis=1)
                     data[['TITLE']].to_csv('input.csv')
                     data[['DATE','TIME']].to_csv('../output/time.csv')
-                    os.system('aipaas airun "./run_cloud.sh" --gpu 1 -u wxw -p wy123456 -w ./ -o ../output')
+                    os.system('aipaas airun "./run_cloud.sh" --gpu 1 -u wxw -p wy12345678 -w ./ -o ../output')
 
                     insert_score()
                 data = pd.read_sql('select ID, DATE, TIME, S_INFO_WINDCODE, TITLE from FinancialNews where (USEFUL=1) and (SCORE is NULL) limit %d' % pull_size,mysql_wind)
